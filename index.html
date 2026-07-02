@@ -4,303 +4,335 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Koki — Creative Link</title>
-<!--
-  ============================================================
-  差し替えポイント
-  - .avatar img … プロフィール画像（今はイニシャル表示）
-  - 各カードの data-link href="#" … 実リンク/デモURL
-  - .social a href … SNSの実URL
-  - FUTURECAST の .feature-thumb … サムネ画像
-  ============================================================
--->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#3A2E5C;
-    --muted:#8a7fa6;
-    --purple:#6B4FD8;
-    --gold:#FFB627;
-    --coral:#FF7A9A;
-    --sky:#3DB2FF;
-    --mint:#2BC4A3;
-    --card:#ffffff;
+    --ink:#3A2E5C;--muted:#8a7fa6;--purple:#6B4FD8;--gold:#FFB627;
+    --coral:#FF7A9A;--sky:#3DB2FF;--mint:#2BC4A3;--card:#fff;
     --disp:'Fredoka','Zen Maru Gothic',sans-serif;
     --jp:'Zen Maru Gothic','Noto Sans JP',sans-serif;
     --body:'Quicksand','Noto Sans JP',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    font-family:var(--body);color:var(--ink);line-height:1.6;
-    min-height:100vh;
+  body{font-family:var(--body);color:var(--ink);line-height:1.6;min-height:100vh;
     background:
       radial-gradient(120% 80% at 15% 0%, #FFE6EC 0%, transparent 50%),
       radial-gradient(120% 80% at 90% 8%, #E4EDFF 0%, transparent 52%),
       radial-gradient(120% 80% at 50% 100%, #FFF3DA 0%, transparent 55%),
       linear-gradient(180deg,#F3ECFF 0%, #FFF9F2 100%);
-    background-attachment:fixed;
-  }
+    background-attachment:fixed;}
   a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-  /* きらめき */
   #sky{position:fixed;inset:0;z-index:0;pointer-events:none}
   .twinkle{position:absolute;border-radius:50%;background:var(--gold);
-    box-shadow:0 0 6px 1px rgba(255,182,39,.7);
-    animation:tw var(--dur,3s) ease-in-out infinite;opacity:0}
+    box-shadow:0 0 6px 1px rgba(255,182,39,.7);animation:tw var(--dur,3s) ease-in-out infinite;opacity:0}
   @keyframes tw{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.85;transform:scale(1)}}
 
-  .shell{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:46px 20px 60px}
+  .shell{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 20px 60px}
 
-  /* ---------- プロフィール ---------- */
-  .profile{text-align:center;margin-bottom:30px}
+  .adminbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;min-height:40px;margin-bottom:6px}
+  .adminbar .tag{font-family:var(--jp);font-weight:700;font-size:.78rem;color:var(--purple);
+    background:#fff;border-radius:999px;padding:5px 12px;box-shadow:0 4px 12px rgba(107,79,216,.14)}
+  .adminbar button{font-family:var(--jp);font-weight:700;font-size:.8rem;color:var(--purple);
+    background:#fff;border-radius:999px;padding:7px 14px;box-shadow:0 4px 12px rgba(107,79,216,.14);transition:transform .15s ease}
+  .adminbar button:hover{transform:translateY(-2px)}
+
+  .profile{text-align:center;margin-bottom:26px}
   .avatar-wrap{position:relative;width:118px;margin:0 auto 16px}
-  .avatar{
-    width:118px;height:118px;border-radius:50%;
+  .avatar{width:118px;height:118px;border-radius:50%;
     background:linear-gradient(135deg,var(--purple),var(--coral) 60%,var(--gold));
     display:flex;align-items:center;justify-content:center;
     font-family:var(--disp);font-weight:700;font-size:2.8rem;color:#fff;
-    box-shadow:0 12px 30px rgba(107,79,216,.3);
-    border:5px solid #fff;
-  }
+    box-shadow:0 12px 30px rgba(107,79,216,.3);border:5px solid #fff}
   .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-  .verified{
-    position:absolute;right:4px;bottom:4px;width:34px;height:34px;border-radius:50%;
-    background:linear-gradient(135deg,var(--sky),var(--purple));
-    border:3px solid #fff;display:flex;align-items:center;justify-content:center;
-    color:#fff;font-size:.9rem;box-shadow:0 4px 10px rgba(0,0,0,.18);
-  }
+  .verified{position:absolute;right:4px;bottom:4px;width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,var(--sky),var(--purple));border:3px solid #fff;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;box-shadow:0 4px 10px rgba(0,0,0,.18)}
   .profile h1{font-family:var(--jp);font-weight:700;font-size:1.55rem;margin-bottom:8px}
   .role-chips{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-  .role-chips span{
-    font-family:var(--disp);font-weight:600;font-size:.78rem;color:#fff;
-    padding:5px 13px;border-radius:999px;
-  }
-  .role-chips .a{background:var(--purple)}
-  .role-chips .b{background:var(--coral)}
-  .role-chips .c{background:var(--sky)}
+  .role-chips span{font-family:var(--disp);font-weight:600;font-size:.78rem;color:#fff;padding:5px 13px;border-radius:999px}
+  .role-chips .a{background:var(--purple)}.role-chips .b{background:var(--coral)}.role-chips .c{background:var(--sky)}
   .bio{font-family:var(--jp);font-weight:500;color:#6a5f86;font-size:.95rem;max-width:340px;margin:0 auto}
 
-  /* ---------- SNS小アイコン列 ---------- */
-  .social{display:flex;gap:12px;justify-content:center;margin:24px 0 30px}
-  .social a{
-    width:46px;height:46px;border-radius:50%;background:#fff;
-    display:flex;align-items:center;justify-content:center;font-size:1.15rem;
-    box-shadow:0 6px 16px rgba(107,79,216,.14);
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .social a:hover{transform:translateY(-4px);box-shadow:0 12px 22px rgba(107,79,216,.22)}
+  .eyebrow{font-family:var(--jp);font-weight:700;font-size:.9rem;color:var(--purple);
+    display:flex;align-items:center;gap:8px;margin:26px 4px 12px}
+  .eyebrow .line{flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,#E5D9FF,transparent)}
+  .eyebrow .add{flex:none;font-size:.78rem;color:#fff;background:var(--purple);border-radius:999px;padding:4px 12px;font-weight:700}
 
-  /* ---------- セクション見出し ---------- */
-  .eyebrow{
-    font-family:var(--jp);font-weight:700;font-size:.9rem;color:var(--purple);
-    display:flex;align-items:center;gap:8px;margin:26px 4px 12px;
-  }
-  .eyebrow::after{content:"";flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,#E5D9FF,transparent)}
-
-  /* ---------- リンクカード ---------- */
-  .card{
-    display:flex;align-items:center;gap:16px;
-    background:var(--card);border-radius:20px;padding:16px 18px;margin-bottom:14px;
-    box-shadow:0 8px 22px rgba(58,46,92,.08);
-    transition:transform .2s ease, box-shadow .2s ease;
-    opacity:0;transform:translateY(18px);
-  }
-  .card.show{opacity:1;transform:none}
+  .card{display:flex;align-items:center;gap:16px;background:var(--card);border-radius:20px;
+    padding:16px 18px;margin-bottom:14px;box-shadow:0 8px 22px rgba(58,46,92,.08);transition:transform .2s ease, box-shadow .2s ease}
   .card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 16px 32px rgba(107,79,216,.18)}
-  .chip{
-    flex:none;width:52px;height:52px;border-radius:15px;
-    display:flex;align-items:center;justify-content:center;font-size:1.5rem;
-  }
-  .chip.purple{background:#EEE7FF}
-  .chip.coral{background:#FFE5EC}
-  .chip.sky{background:#E2F1FF}
-  .chip.mint{background:#DDF5EF}
-  .chip.gold{background:#FFF1D6}
+  .chip{flex:none;width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+  .chip.purple{background:#EEE7FF}.chip.coral{background:#FFE5EC}.chip.sky{background:#E2F1FF}
+  .chip.mint{background:#DDF5EF}.chip.gold{background:#FFF1D6}
   .card .txt{flex:1;min-width:0}
   .card .txt b{font-family:var(--jp);font-weight:700;font-size:1.02rem;display:block}
   .card .txt small{font-family:var(--jp);color:var(--muted);font-size:.85rem;font-weight:500}
-  .card .arw{flex:none;color:#cbbfe6;font-size:1.1rem;transition:transform .2s ease,color .2s ease}
-  .card:hover .arw{transform:translateX(4px);color:var(--coral)}
+  .card .arw{flex:none;color:#cbbfe6;font-size:1.1rem}
+  .card .ops{flex:none;display:flex;gap:6px}
+  .card .ops button{font-size:.9rem;width:34px;height:34px;border-radius:10px;background:#F4EFFF}
 
-  /* ---------- フィーチャーカード ---------- */
-  .feature{
-    background:#fff;border-radius:24px;padding:18px;margin-bottom:14px;
-    box-shadow:0 12px 28px rgba(58,46,92,.1);
-    opacity:0;transform:translateY(18px);
-  }
-  .feature.show{opacity:1;transform:none}
-  .feature .tagtop{
-    display:inline-block;font-family:var(--jp);font-weight:700;font-size:.8rem;color:#fff;
-    background:var(--coral);padding:6px 14px;border-radius:999px;margin-bottom:14px;
-  }
-  .feature-thumb{
-    border-radius:16px;aspect-ratio:16/10;overflow:hidden;margin-bottom:14px;
+  .feature{background:#fff;border-radius:24px;padding:18px;margin-bottom:14px;box-shadow:0 12px 28px rgba(58,46,92,.1)}
+  .feature .tagtop{display:inline-block;font-family:var(--jp);font-weight:700;font-size:.8rem;color:#fff;
+    background:var(--coral);padding:6px 14px;border-radius:999px;margin-bottom:14px}
+  .feature-thumb{border-radius:16px;aspect-ratio:16/10;overflow:hidden;margin-bottom:14px;
     background:linear-gradient(130deg,var(--purple),var(--coral) 70%,var(--gold));
-    display:flex;align-items:center;justify-content:center;
-    color:#fff;font-family:var(--disp);font-weight:700;font-size:1.4rem;letter-spacing:.04em;
-  }
+    display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--disp);font-weight:700;font-size:1.4rem}
   .feature-thumb img{width:100%;height:100%;object-fit:cover}
   .feature .frow{display:flex;align-items:center;gap:12px}
   .feature .frow .txt{flex:1}
   .feature .frow b{font-family:var(--jp);font-weight:700;font-size:1.05rem;display:block}
   .feature .frow small{font-family:var(--jp);color:var(--muted);font-size:.85rem;font-weight:500}
-  .feature .frow .go{
-    flex:none;font-family:var(--disp);font-weight:600;font-size:.85rem;color:#fff;
-    background:var(--purple);padding:9px 18px;border-radius:999px;
-    transition:transform .2s ease,background .2s ease;
-  }
-  .feature .frow .go:hover{transform:translateX(3px);background:var(--coral)}
+  .feature .frow .go{flex:none;font-family:var(--disp);font-weight:600;font-size:.85rem;color:#fff;
+    background:var(--purple);padding:9px 18px;border-radius:999px}
+  .feature .ops{display:flex;gap:6px;margin-top:12px;justify-content:flex-end}
+  .feature .ops button{font-size:.9rem;width:34px;height:34px;border-radius:10px;background:#F4EFFF}
 
-  /* ---------- フッター ---------- */
   footer{text-align:center;margin-top:34px}
   footer p{font-family:var(--body);font-size:.78rem;color:#a99fc0}
 
-  a:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:10px}
+  .empty{text-align:center;font-family:var(--jp);color:var(--muted);padding:20px;font-size:.9rem}
+  .loading{text-align:center;padding:60px 20px;font-family:var(--jp);color:var(--muted)}
 
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;scroll-behavior:auto!important}
-    .card,.feature{opacity:1;transform:none}
-  }
+  .modal-bg{position:fixed;inset:0;z-index:50;background:rgba(58,46,92,.45);display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:22px;padding:24px;width:100%;max-width:420px;max-height:90vh;overflow:auto;box-shadow:0 20px 50px rgba(58,46,92,.3)}
+  .modal h3{font-family:var(--disp);font-weight:700;font-size:1.3rem;margin-bottom:16px;color:var(--purple)}
+  .modal label{display:block;font-family:var(--jp);font-weight:700;font-size:.82rem;margin:12px 0 5px}
+  .modal input,.modal select,.modal textarea{width:100%;font-family:var(--body);font-size:.95rem;
+    padding:10px 12px;border:2px solid #ECE4FF;border-radius:12px;background:#FBF9FF;color:var(--ink)}
+  .modal textarea{resize:vertical;min-height:56px}
+  .modal .row2{display:flex;gap:10px}.modal .row2>div{flex:1}
+  .modal .check{display:flex;align-items:center;gap:8px;margin-top:14px}
+  .modal .check input{width:auto}
+  .modal .actions{display:flex;gap:10px;margin-top:20px}
+  .modal .actions button{flex:1;font-family:var(--disp);font-weight:600;font-size:.95rem;padding:12px;border-radius:12px}
+  .modal .save{background:var(--purple);color:#fff}
+  .modal .cancel{background:#F0ECFA;color:var(--ink)}
+
+  a:focus-visible,button:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:10px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-
 <div id="sky" aria-hidden="true"></div>
 
 <div class="shell">
+  <div class="adminbar" id="adminbar"></div>
 
-  <!-- プロフィール -->
   <div class="profile">
     <div class="avatar-wrap">
       <div class="avatar"><!-- <img src="me.jpg" alt="Koki"> -->K</div>
       <span class="verified" aria-label="認証">✓</span>
     </div>
     <h1>Koki｜つくる人</h1>
-    <div class="role-chips">
-      <span class="a">Engineer</span>
-      <span class="b">Musician</span>
-      <span class="c">AI Creator</span>
-    </div>
+    <div class="role-chips"><span class="a">Engineer</span><span class="b">Musician</span><span class="c">AI Creator</span></div>
     <p class="bio">コード・映像・音。アイデアを動くカタチにして届けています。制作物はこちらから ↓</p>
   </div>
 
-  <!-- SNS -->
-  <nav class="social" aria-label="SNS">
-    <a data-link href="#" aria-label="X">𝕏</a>
-    <a data-link href="#" aria-label="GitHub">⌨</a>
-    <a data-link href="#" aria-label="YouTube">▶</a>
-    <a data-link href="#" aria-label="TikTok">♪</a>
-    <a data-link href="#" aria-label="Mail">✉</a>
-  </nav>
+  <div id="content"><div class="loading">読み込み中…</div></div>
 
-  <!-- アプリ -->
-  <div class="eyebrow">✨ アプリ</div>
-
-  <a class="card" data-link href="#">
-    <span class="chip purple">🏢</span>
-    <span class="txt"><b>STUDIO COMPLEX</b><small>AIエージェントが各部署を演じる制作スタジオ</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip coral">💕</span>
-    <span class="txt"><b>Miya-Dateplan</b><small>多段フィルタで選ぶデートスポット推薦アプリ</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip sky">🎮</span>
-    <span class="txt"><b>SkyOS</b><small>毎日をゲーム化するRPG風 人生管理PWA</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip mint">🌏</span>
-    <span class="txt"><b>三語道場</b><small>日→英・中・韓を毎日訳す習慣化アプリ</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip gold">🔁</span>
-    <span class="txt"><b>Recursion Scope</b><small>3エージェントの再帰推論を可視化</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <!-- 映像（フィーチャー） -->
-  <div class="eyebrow">🎬 映像</div>
-
-  <div class="feature">
-    <span class="tagtop">毎日更新中のShortsチャンネル</span>
-    <div class="feature-thumb"><!-- <img src="futurecast.jpg" alt="FUTURECAST"> -->FUTURECAST</div>
-    <div class="frow">
-      <span class="txt"><b>FUTURECAST</b><small>AI・AR・BCIの未来テックを1日10本、全自動で配信</small></span>
-      <a class="go" data-link href="#">見る</a>
-    </div>
-  </div>
-
-  <!-- 音 -->
-  <div class="eyebrow">🎵 音</div>
-
-  <a class="card" data-link href="#">
-    <span class="chip coral">🎸</span>
-    <span class="txt"><b>ステム分離パイプライン</b><small>Demucsでベース・ギターをきれいに抽出</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip purple">🎼</span>
-    <span class="txt"><b>2段階ベース採譜</b><small>音から楽譜（MusicXML）まで自動生成</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <a class="card" data-link href="#">
-    <span class="chip mint">🎹</span>
-    <span class="txt"><b>ボサノヴァ編曲エンジン</b><small>コードを入れるとMIDI伴奏を生成</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <!-- ものづくり -->
-  <div class="eyebrow">🛠️ ものづくり</div>
-
-  <a class="card" data-link href="#">
-    <span class="chip sky">🥽</span>
-    <span class="txt"><b>Skyland Project</b><small>Raspberry Pi音声AI＋自作ARグラス構想</small></span>
-    <span class="arw">→</span>
-  </a>
-
-  <footer>
-    <p>© 2026 Koki — Creative Link ✦ Built with code &amp; a little magic.</p>
-  </footer>
-
+  <footer><p>© 2026 Koki — Creative Link ✦ Built with code &amp; a little magic.</p></footer>
 </div>
 
-<script>
-  // きらめき
-  (function(){
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const sky=document.getElementById('sky');
-    for(let i=0;i<34;i++){
-      const s=document.createElement('span');s.className='twinkle';
-      const sz=Math.random()*2.5+1.5;
-      s.style.width=s.style.height=sz+'px';
-      s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-      s.style.setProperty('--dur',(Math.random()*3+2)+'s');
-      s.style.animationDelay=(Math.random()*4)+'s';
-      if(Math.random()>0.8){s.style.background='#FF7A9A';s.style.boxShadow='0 0 6px 1px rgba(255,122,154,.7)';}
-      sky.appendChild(s);
-    }
-  })();
-  // スクロールで順番に出現
-  (function(){
-    const items=document.querySelectorAll('.card,.feature');
-    if(!('IntersectionObserver'in window)){items.forEach(c=>c.classList.add('show'));return;}
-    const io=new IntersectionObserver((es)=>{
-      es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);}});
-    },{threshold:0.12});
-    items.forEach(c=>io.observe(c));
-  })();
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">作品を追加</h3>
+    <input type="hidden" id="f_id">
+    <label>セクション</label>
+    <select id="f_section">
+      <option value="app">✨ アプリ</option>
+      <option value="movie">🎬 映像</option>
+      <option value="sound">🎵 音</option>
+      <option value="maker">🛠️ ものづくり</option>
+    </select>
+    <label>タイトル</label>
+    <input id="f_title" placeholder="STUDIO COMPLEX">
+    <label>説明（1行）</label>
+    <textarea id="f_subtitle" placeholder="どんな作品か一言で"></textarea>
+    <label>リンクURL</label>
+    <input id="f_url" placeholder="https://...">
+    <div class="row2">
+      <div><label>アイコン（絵文字）</label><input id="f_icon" placeholder="🎮" maxlength="4"></div>
+      <div><label>色</label>
+        <select id="f_chip">
+          <option value="purple">パープル</option><option value="coral">コーラル</option>
+          <option value="sky">スカイ</option><option value="mint">ミント</option><option value="gold">ゴールド</option>
+        </select>
+      </div>
+    </div>
+    <div class="check"><input type="checkbox" id="f_featured"><label for="f_featured" style="margin:0">大きいカードで目立たせる</label></div>
+    <div class="actions">
+      <button class="cancel" id="btnCancel">キャンセル</button>
+      <button class="save" id="btnSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+/* ============================================================
+   ① ここ3つを自分の値に書き換える
+   - SUPABASE_URL / SUPABASE_ANON_KEY … Supabase の Project Settings → API
+   - ADMIN_EMAIL … ログインに使う自分のメール（SQLに入れたものと同じ）
+   ※ anon key は公開してOKな鍵。本当の防御はDB側のRLS。
+   ============================================================ */
+const SUPABASE_URL      = 'https://yfybzbklztxljekbdvmc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_FtjwWzDr8aaV3aJF9Jjz7w_0WLZVuSN';
+const ADMIN_EMAIL       = 'promptotaku@gmail.com';
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const SECTIONS = [
+  {key:'app',   label:'✨ アプリ'},
+  {key:'movie', label:'🎬 映像'},
+  {key:'sound', label:'🎵 音'},
+  {key:'maker', label:'🛠️ ものづくり'},
+];
+
+let items = [];
+let isAdmin = false;
+let userEmail = null;
+
+const $ = s => document.querySelector(s);
+const esc = s => (s??'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  applySession(session);
+  sb.auth.onAuthStateChange((_e, s)=>{ applySession(s); render(); });
+  await load();
+}
+function applySession(session){
+  userEmail = session?.user?.email ?? null;
+  isAdmin = !!userEmail && userEmail === ADMIN_EMAIL; // 表示制御のみ。実際の許可はRLS。
+  renderAdminBar();
+}
+async function load(){
+  const { data, error } = await sb.from('portfolio_items').select('*')
+    .order('section').order('sort_order').order('created_at');
+  if(error){ $('#content').innerHTML = '<div class="empty">読み込みエラー：'+esc(error.message)+'<br>設定値を確認してください。</div>'; return; }
+  items = data || [];
+  render();
+}
+
+function renderAdminBar(){
+  const bar = $('#adminbar');
+  if(isAdmin){
+    bar.innerHTML = '<span class="tag">管理者：'+esc(userEmail)+'</span><button id="btnLogout">ログアウト</button>';
+    $('#btnLogout').onclick = async ()=>{ await sb.auth.signOut(); };
+  } else {
+    bar.innerHTML = '<button id="btnLogin">管理者ログイン</button>';
+    $('#btnLogin').onclick = login;
+  }
+}
+async function login(){
+  const email = prompt('管理者メールを入力（ログインリンクを送ります）');
+  if(!email) return;
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options:{ emailRedirectTo: window.location.origin + window.location.pathname }
+  });
+  alert(error ? ('エラー：'+error.message) : 'ログインリンクをメールに送りました。メール内のリンクを開いてください。');
+}
+
+function cardHTML(it){
+  const ops = isAdmin ? '<span class="ops">'
+      + '<button title="編集" onclick="editItem(\''+it.id+'\')">✏️</button>'
+      + '<button title="削除" onclick="delItem(\''+it.id+'\')">🗑️</button></span>' : '';
+  if(it.is_featured){
+    return '<div class="feature"><span class="tagtop">FEATURED</span>'
+      + '<div class="feature-thumb">'+esc(it.title)+'</div>'
+      + '<div class="frow"><span class="txt"><b>'+esc(it.title)+'</b><small>'+esc(it.subtitle)+'</small></span>'
+      + ((it.url && it.url!=='#') ? '<a class="go" href="'+esc(it.url)+'" target="_blank" rel="noopener">見る</a>' : '')
+      + '</div>'+ops+'</div>';
+  }
+  const inner = '<span class="chip '+esc(it.chip_color)+'">'+esc(it.icon||'⭐')+'</span>'
+      + '<span class="txt"><b>'+esc(it.title)+'</b><small>'+esc(it.subtitle)+'</small></span>'
+      + (isAdmin ? ops : '<span class="arw">→</span>');
+  return (it.url && it.url!=='#' && !isAdmin)
+    ? '<a class="card" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+inner+'</a>'
+    : '<div class="card">'+inner+'</div>';
+}
+
+function render(){
+  const box = $('#content');
+  if(!items.length && !isAdmin){ box.innerHTML = '<div class="empty">まだ作品がありません。</div>'; return; }
+  let html = '';
+  for(const sec of SECTIONS){
+    const list = items.filter(i=>i.section===sec.key);
+    if(!list.length && !isAdmin) continue;
+    html += '<div class="eyebrow">'+sec.label+'<span class="line"></span>'
+         + (isAdmin ? '<button class="add" onclick="addItem(\''+sec.key+'\')">＋ 追加</button>' : '') + '</div>';
+    html += list.map(cardHTML).join('') || (isAdmin ? '<div class="empty">（このセクションは空です）</div>' : '');
+  }
+  box.innerHTML = html;
+}
+
+const modal = $('#modalBg');
+window.addItem = (section)=>{ openModal({section}); };
+window.editItem = (id)=>{ openModal(items.find(i=>i.id===id)); };
+window.delItem = async (id)=>{
+  const it = items.find(i=>i.id===id);
+  if(!confirm('「'+(it?it.title:'')+'」を削除しますか？')) return;
+  const { error } = await sb.from('portfolio_items').delete().eq('id', id);
+  if(error){ alert('削除エラー：'+error.message); return; }
+  await load();
+};
+function openModal(it){
+  it = it || {};
+  $('#modalTitle').textContent = it.id ? '作品を編集' : '作品を追加';
+  $('#f_id').value = it.id || '';
+  $('#f_section').value = it.section || 'app';
+  $('#f_title').value = it.title || '';
+  $('#f_subtitle').value = it.subtitle || '';
+  $('#f_url').value = (it.url && it.url!=='#') ? it.url : '';
+  $('#f_icon').value = it.icon || '';
+  $('#f_chip').value = it.chip_color || 'purple';
+  $('#f_featured').checked = !!it.is_featured;
+  modal.classList.add('open');
+}
+$('#btnCancel').onclick = ()=> modal.classList.remove('open');
+modal.onclick = (e)=>{ if(e.target===modal) modal.classList.remove('open'); };
+$('#btnSave').onclick = async ()=>{
+  const payload = {
+    section: $('#f_section').value,
+    title: $('#f_title').value.trim(),
+    subtitle: $('#f_subtitle').value.trim(),
+    url: $('#f_url').value.trim() || '#',
+    icon: $('#f_icon').value.trim() || '⭐',
+    chip_color: $('#f_chip').value,
+    is_featured: $('#f_featured').checked,
+  };
+  if(!payload.title){ alert('タイトルを入力してください'); return; }
+  const id = $('#f_id').value;
+  const q = id
+    ? sb.from('portfolio_items').update(payload).eq('id', id)
+    : sb.from('portfolio_items').insert(payload);
+  const { error } = await q;
+  if(error){ alert('保存エラー：'+error.message+'\n（管理者メールでログインしているか確認）'); return; }
+  modal.classList.remove('open');
+  await load();
+};
+
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const sky=$('#sky');
+  for(let i=0;i<30;i++){
+    const s=document.createElement('span');s.className='twinkle';
+    const sz=Math.random()*2.5+1.5;s.style.width=s.style.height=sz+'px';
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.setProperty('--dur',(Math.random()*3+2)+'s');s.style.animationDelay=(Math.random()*4)+'s';
+    if(Math.random()>0.8){s.style.background='#FF7A9A';s.style.boxShadow='0 0 6px 1px rgba(255,122,154,.7)';}
+    sky.appendChild(s);
+  }
+}
+
+init();
 </script>
 </body>
 </html>
