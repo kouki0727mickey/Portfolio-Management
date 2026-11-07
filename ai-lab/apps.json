@@ -1,0 +1,15 @@
+[
+  {
+    "slug": "2026-11-07-0500-release-radar",
+    "title": "AIリリース・レーダー 11月第1週",
+    "description": "11月2〜5日に発表されたAIモデルを、日付・会社・用途で絞り込めるタイムライン。",
+    "emoji": "📡",
+    "topic": "OpenAI GPT-6 Cyber / Gemini Omni 1.2 Flash / Tencent Hy4 / DeepSeek ほか",
+    "created_at": "2026-11-07T05:00:00Z",
+    "sources": [
+      "https://www.nocode.mba/ai-release-tracker/2026/11",
+      "https://llmgateway.io/timeline",
+      "https://scriptbyai.com/timeline-of-chatgpt"
+    ]
+  }
+]

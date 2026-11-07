@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AIリリース・レーダー</title>
+<style>
+  :root{--ink:#1f1a33;--muted:#6f6890;--bg:#f6f4fb;--card:#fff;--line:#e3def2;
+    --openai:#10a37f;--google:#4285f4;--tencent:#e8473b;--deepseek:#5b6cff;--zai:#d08a00;}
+  @media (prefers-color-scheme: dark){:root{--ink:#eeeaff;--muted:#a59fc2;--bg:#120f1f;--card:#1e1933;--line:#332b50;}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,'Hiragino Sans','Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink)}
+  .shell{max-width:760px;margin:0 auto;padding:24px 16px 60px}
+  a{color:inherit}
+  .back{font-size:.85rem;font-weight:700;text-decoration:none;color:#6B4FD8}
+  h1{font-size:1.6rem;margin:12px 0 4px}
+  .lead{color:var(--muted);font-size:.92rem;margin-bottom:18px}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:.82rem;cursor:pointer}
+  .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .count{font-size:.8rem;color:var(--muted);margin:6px 0 14px}
+  .day{margin-bottom:18px}
+  .day h2{font-size:.85rem;color:var(--muted);letter-spacing:.05em;margin-bottom:8px}
+  .item{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:12px;padding:14px;margin-bottom:10px}
+  .item header{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+  .item h3{font-size:1.05rem}
+  .org{font-size:.75rem;font-weight:700;color:var(--c)}
+  .item p{font-size:.88rem;color:var(--muted);margin-top:6px}
+  .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .tag{font-size:.7rem;border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+  .note{font-size:.8rem;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:12px;margin-top:20px}
+  .note ul{margin:6px 0 0 18px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <a class="back" href="../../">← AI Lab</a>
+  <h1>📡 AIリリース・レーダー</h1>
+  <p class="lead">2026年11月2〜5日に報じられたAIモデルのリリースを、会社と用途で絞り込めます。</p>
+
+  <div class="filters" id="orgs"></div>
+  <div class="filters" id="kinds"></div>
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+
+  <div class="note">
+    ⚠️ ここにある情報はAIリリース追跡サイト（アグリゲーター）から集めたもので、各社の公式発表では確認できていません。日付や内容は公式情報で確かめてください。
+    <ul>
+      <li><a href="https://www.nocode.mba/ai-release-tracker/2026/11" target="_blank" rel="noopener">nocode.mba AI Release Tracker</a></li>
+      <li><a href="https://llmgateway.io/timeline" target="_blank" rel="noopener">LLM Gateway Timeline</a></li>
+      <li><a href="https://scriptbyai.com/timeline-of-chatgpt" target="_blank" rel="noopener">ScriptByAI OpenAI Timeline</a></li>
+    </ul>
+  </div>
+</div>
+<script>
+const DATA = [
+  {date:'2026-11-05', org:'OpenAI', name:'GPT-6 Cyber', kind:'セキュリティ', desc:'許可を得た脆弱性リサーチ向けのサイバーセキュリティ特化モデル。まずは承認済みの一部顧客にAPIとCodexで提供。', tags:['API','Codex','限定提供']},
+  {date:'2026-11-05', org:'Google', name:'Gemini Omni 1.2 Flash', kind:'汎用', desc:'API提供開始。コンテキストは131,072トークン。', tags:['API','131Kコンテキスト']},
+  {date:'2026-11-05', org:'DeepSeek', name:'deepseek-v4-flash-0731', kind:'汎用', desc:'DeepSeek V4系の軽量・高速モデル。', tags:['Flash']},
+  {date:'2026-11-04', org:'OpenAI', name:'Images 2.6', kind:'画像生成', desc:'画像生成モデルのアップデート。', tags:['画像']},
+  {date:'2026-11-04', org:'Google', name:'Gemini Omni 1.1 Flash', kind:'汎用', desc:'Omni 1.2 Flashの前バージョン。', tags:['API']},
+  {date:'2026-11-04', org:'Tencent', name:'Hy4', kind:'エージェント', desc:'Tencentの最新世代LLM。画像理解とコンピューター操作の機能を追加。重みとシステムカードは数日以内に公開予定。', tags:['画像理解','コンピューター操作','オープンウェイト予定']},
+  {date:'2026-11-02', org:'Z.ai', name:'GLM 5.3 FlashX Legal', kind:'法務', desc:'法務用途向けのGLMバリアント。API提供開始。', tags:['API','法務']},
+];
+const COLORS = {OpenAI:'var(--openai)',Google:'var(--google)',Tencent:'var(--tencent)',DeepSeek:'var(--deepseek)','Z.ai':'var(--zai)'};
+const state = {org:'すべて', kind:'すべて'};
+const uniq = a => ['すべて', ...new Set(a)];
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function chips(el, values, key){
+  el.innerHTML = values.map(v => `<button class="chip ${state[key]===v?'on':''}" data-v="${esc(v)}">${esc(v)}</button>`).join('');
+  el.querySelectorAll('button').forEach(b => b.onclick = () => { state[key] = b.dataset.v; render(); });
+}
+function render(){
+  chips(document.getElementById('orgs'), uniq(DATA.map(d=>d.org)), 'org');
+  chips(document.getElementById('kinds'), uniq(DATA.map(d=>d.kind)), 'kind');
+  const rows = DATA.filter(d => (state.org==='すべて'||d.org===state.org) && (state.kind==='すべて'||d.kind===state.kind));
+  document.getElementById('count').textContent = `${rows.length} 件 / 全 ${DATA.length} 件`;
+  const days = [...new Set(rows.map(r=>r.date))].sort().reverse();
+  document.getElementById('list').innerHTML = days.map(day => {
+    const label = new Date(day+'T00:00:00').toLocaleDateString('ja-JP',{month:'long',day:'numeric',weekday:'short'});
+    return `<section class="day"><h2>${label}</h2>${rows.filter(r=>r.date===day).map(r => `
+      <article class="item" style="--c:${COLORS[r.org]}">
+        <header><h3>${esc(r.name)}</h3><span class="org">${esc(r.org)} · ${esc(r.kind)}</span></header>
+        <p>${esc(r.desc)}</p>
+        <div class="tags">${r.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
+      </article>`).join('')}</section>`;
+  }).join('') || '<p class="count">条件に合うリリースはありません。</p>';
+}
+render();
+</script>
+</body>
+</html>
