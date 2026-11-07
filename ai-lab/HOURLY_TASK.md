@@ -17,6 +17,7 @@ These are the instructions the hourly scheduled task follows. Edit this file to 
    - At the bottom, list the source links. If a fact is not confirmed by a primary source, say so.
 4. **Register**: Add one entry to the top of the `ai-lab/apps.json` array:
    `slug`, `title`, `description` (one line), `emoji`, `topic`, `created_at` (ISO 8601 UTC), `sources` (array of URLs)
+   - `emoji` + `title` + `description` are posted to X as-is after the push, with the app URL. Keep `description` under 100 characters and write it like a tweet (what it does, why it is interesting).
 5. **Check**: Open the page in Playwright and confirm the browser console shows no errors.
 6. **Publish**: Commit and push to the `claude/ai-news-webapp-hourly-qhefm5` branch.
    - Run `git pull --rebase origin claude/ai-news-webapp-hourly-qhefm5` before pushing.
