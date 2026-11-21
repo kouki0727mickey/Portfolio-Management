@@ -1,0 +1,10 @@
+#night-overlay {
+  position: fixed; inset: 0; z-index: 5; pointer-events: none; display: none;
+  background: radial-gradient(
+    circle 180px at var(--lx, 50vw) var(--ly, 40vh),
+    rgba(255, 214, 140, 0.16) 0%,
+    rgba(255, 214, 140, 0.06) 55%,
+    rgba(10, 10, 20, 0.88) 100%
+  );
+}
+html[data-night='true'] #night-overlay { display: block; }

@@ -3,11 +3,14 @@ import './styles/desk.css';
 import './styles/panel.css';
 import './styles/terminal.css';
 import './styles/game.css';
+import './styles/night.css';
 import { content } from './content';
 import { DESK_OBJECTS } from './desk/objects';
 import { PUZZLES } from './game/puzzles';
 import { mountBugHunt } from './game/view';
 import { mountDesk } from './desk/scene';
+import { createKonamiDetector } from './effects/konami';
+import { toggleNightMode } from './effects/nightmode';
 import { createPanel } from './panel/panel';
 import { renderPanel } from './panel/render';
 import { parseHash, toHash } from './router';
@@ -30,7 +33,10 @@ const terminalButton = document.createElement('button');
 terminalButton.type = 'button';
 terminalButton.className = 'terminal-open';
 terminalButton.textContent = 'ターミナルを開く';
-app.replaceChildren(deskEl, panelRoot, terminalRoot, hint, terminalButton);
+const nightOverlay = document.createElement('div');
+nightOverlay.id = 'night-overlay';
+nightOverlay.setAttribute('aria-hidden', 'true');
+app.replaceChildren(deskEl, panelRoot, nightOverlay, terminalRoot, hint, terminalButton);
 
 const panel = createPanel(panelRoot);
 let lastTrigger: HTMLElement | undefined;
@@ -65,9 +71,20 @@ mountDesk(deskEl, DESK_OBJECTS, (id, trigger) => {
 const terminal = mountTerminal(terminalRoot, content, (action) => {
   if (action.kind === 'navigate') location.hash = toHash(action.route);
   else if (action.kind === 'mailto') location.href = action.href;
+  else if (action.kind === 'toggleNight') toggleNightMode();
 });
 terminalButton.addEventListener('click', () => terminal.toggle());
+const feedKonami = createKonamiDetector(() => toggleNightMode());
+const moveLight = (ev: PointerEvent) => {
+  const style = document.documentElement.style;
+  style.setProperty('--lx', `${ev.clientX}px`);
+  style.setProperty('--ly', `${ev.clientY}px`);
+};
+window.addEventListener('pointermove', moveLight);
+window.addEventListener('pointerdown', moveLight);
+
 document.addEventListener('keydown', (ev) => {
+  feedKonami(ev.key);
   if (shouldToggleTerminal(ev)) {
     ev.preventDefault();
     terminal.toggle();
