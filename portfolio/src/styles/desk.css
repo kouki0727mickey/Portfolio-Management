@@ -1,0 +1,24 @@
+#app { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+.desk {
+  position: relative;
+  width: min(100%, 1000px);
+  aspect-ratio: 16 / 10;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(92deg, rgba(0,0,0,.05) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(88deg, rgba(255,255,255,.06) 0 1px, transparent 1px 23px),
+    var(--wood);
+  box-shadow: inset 0 0 0 10px var(--wood-dark), 0 20px 50px var(--shadow);
+}
+.desk-object {
+  position: absolute;
+  left: var(--x); top: var(--y); width: var(--w);
+  transform: rotate(var(--r));
+  transition: transform .15s ease, filter .15s ease;
+  filter: drop-shadow(4px 6px 4px var(--shadow));
+}
+.desk-object img { display: block; width: 100%; height: auto; pointer-events: none; }
+.desk-object:hover, .desk-object:focus-visible {
+  transform: translateY(-6px) rotate(var(--r));
+  filter: drop-shadow(8px 14px 8px var(--shadow));
+}

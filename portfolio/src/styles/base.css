@@ -1,0 +1,24 @@
+:root {
+  --paper: #F4EFE6;
+  --wood: #B88A5E;
+  --wood-dark: #8C6440;
+  --ink: #2B2A28;
+  --pencil-red: #D2452B;
+  --pencil-blue: #2F5D8A;
+  --shadow: rgba(43, 42, 40, 0.18);
+  --font-body: 'Noto Sans JP', sans-serif;
+  --font-hand: 'Klee One', 'Noto Sans JP', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--wood-dark);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+a { color: var(--pencil-blue); }
+:focus-visible { outline: 3px solid var(--pencil-blue); outline-offset: 3px; }
