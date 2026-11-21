@@ -2,8 +2,11 @@ import './styles/base.css';
 import './styles/desk.css';
 import './styles/panel.css';
 import './styles/terminal.css';
+import './styles/game.css';
 import { content } from './content';
 import { DESK_OBJECTS } from './desk/objects';
+import { PUZZLES } from './game/puzzles';
+import { mountBugHunt } from './game/view';
 import { mountDesk } from './desk/scene';
 import { createPanel } from './panel/panel';
 import { renderPanel } from './panel/render';
@@ -38,6 +41,8 @@ function apply(): void {
   if (route.kind === 'panel') {
     const { title, html } = renderPanel(route, content);
     panel.open(title, html, lastTrigger);
+    const huntRoot = document.getElementById('bughunt-root');
+    if (huntRoot) mountBugHunt(huntRoot, PUZZLES, () => (location.hash = toHash({ kind: 'panel', panel: 'contact' })));
   } else if (panel.isOpen()) {
     closingFromRoute = true;
     panel.close();

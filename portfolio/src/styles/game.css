@@ -1,0 +1,14 @@
+.bughunt-progress { font-family: var(--font-hand); margin-bottom: 12px; }
+.bughunt-code { list-style: none; padding: 0; font-family: var(--font-code); font-size: .85rem; background: var(--ink); color: var(--paper); border-radius: 4px; padding: 8px 0; overflow-x: auto; }
+.bughunt-line { display: flex; gap: 14px; width: 100%; text-align: left; padding: 2px 12px; min-height: 28px; position: relative; }
+.bughunt-line:hover:not(:disabled), .bughunt-line:focus-visible { background: rgba(244, 239, 230, .14); }
+.bughunt-line .ln { opacity: .45; width: 1.6em; text-align: right; flex: none; }
+.bughunt-line code { white-space: pre; }
+.bughunt-line.circled { outline: 3px solid var(--pencil-red); outline-offset: -3px; border-radius: 14px; animation: draw-circle .4s ease; }
+.bughunt-line:disabled { cursor: default; color: inherit; }
+@keyframes draw-circle { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+.bughunt-hint { margin-top: 12px; color: var(--pencil-red); font-family: var(--font-hand); animation: shake .3s ease; }
+@keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.bughunt-story { margin: 14px 0; font-family: var(--font-hand); padding: 10px 12px; background: #F2D96B; transform: rotate(-1deg); }
+.bughunt-next, .bughunt-contact { font-family: var(--font-hand); font-size: 1.05rem; min-height: 44px; padding: 0 18px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); }
+.bughunt-rank { font-family: var(--font-hand); font-size: 1.5rem; text-decoration: underline wavy var(--pencil-red); text-underline-offset: 6px; margin-bottom: 14px; }
