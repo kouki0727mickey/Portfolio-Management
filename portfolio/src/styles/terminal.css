@@ -10,7 +10,7 @@
 .terminal-form { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
 .terminal-form input { flex: 1; background: none; border: none; color: inherit; font: inherit; outline: none; min-height: 32px; }
 .terminal-hint {
-  position: fixed; right: 16px; bottom: 12px; z-index: 1;
+  position: fixed; left: 16px; bottom: 12px; z-index: 1;
   font-family: var(--font-hand); font-size: .85rem; color: var(--paper); opacity: .8;
   transform: rotate(-2deg);
 }

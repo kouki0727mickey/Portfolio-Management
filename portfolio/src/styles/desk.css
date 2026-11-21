@@ -22,3 +22,19 @@
   transform: translateY(-6px) rotate(var(--r));
   filter: drop-shadow(8px 14px 8px var(--shadow));
 }
+
+.hire-note {
+  position: fixed; right: 12px; bottom: 12px; z-index: 15;
+  max-width: 46vw; padding: 10px 16px; min-height: 44px;
+  background: #F2D96B; color: var(--ink); text-decoration: none;
+  font-family: var(--font-hand); font-weight: 600;
+  transform: rotate(-3deg); box-shadow: 3px 5px 8px var(--shadow);
+  transition: transform .15s ease;
+}
+.hire-note:hover, .hire-note:focus-visible { transform: rotate(-3deg) translateY(-3px); }
+
+@media (max-width: 639px) {
+  #app { padding: 8px; }
+  .desk { aspect-ratio: 3 / 5; }
+  .desk-object { left: var(--mx); top: var(--my); width: var(--mw); }
+}

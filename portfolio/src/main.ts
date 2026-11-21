@@ -36,7 +36,11 @@ terminalButton.textContent = 'ターミナルを開く';
 const nightOverlay = document.createElement('div');
 nightOverlay.id = 'night-overlay';
 nightOverlay.setAttribute('aria-hidden', 'true');
-app.replaceChildren(deskEl, panelRoot, nightOverlay, terminalRoot, hint, terminalButton);
+const hireNote = document.createElement('a');
+hireNote.className = 'hire-note';
+hireNote.href = toHash({ kind: 'panel', panel: 'contact' });
+hireNote.textContent = '仕事の相談はこちら →';
+app.replaceChildren(deskEl, panelRoot, nightOverlay, terminalRoot, hint, terminalButton, hireNote);
 
 const panel = createPanel(panelRoot);
 let lastTrigger: HTMLElement | undefined;
